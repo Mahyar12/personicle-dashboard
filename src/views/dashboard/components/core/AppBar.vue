@@ -28,92 +28,24 @@
       v-text="$route.name"
     />
 
-    <v-spacer />
-
-    <v-text-field
-      :label="$t('search')"
-      color="secondary"
-      hide-details
-      style="max-width: 165px;"
-    >
-      <template
-        v-if="$vuetify.breakpoint.mdAndUp"
-        v-slot:append-outer
+    <v-spacer/>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+      <v-btn        
+        class="ml-2 ma-2"
+        min-width="0"
+        v-bind="attrs"
+        v-on="on"
+        color="indigo"
+        outlined
+        @click="connectUser"
       >
-        <v-btn
-          class="mt-n2"
-          elevation="1"
-          fab
-          small
-        >
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
+        Connect
+        <v-icon medium right>mdi-credit-card-scan-outline</v-icon>
+      </v-btn>
       </template>
-    </v-text-field>
-
-    <div class="mx-3" />
-
-    <v-btn
-      class="ml-2"
-      min-width="0"
-      text
-      to="/"
-    >
-      <v-icon>mdi-view-dashboard</v-icon>
-    </v-btn>
-
-    <v-menu
-      bottom
-      left
-      offset-y
-      origin="top right"
-      transition="scale-transition"
-    >
-      <template v-slot:activator="{ attrs, on }">
-        <v-btn
-          class="ml-2"
-          min-width="0"
-          text
-          v-bind="attrs"
-          v-on="on"
-        >
-          <v-badge
-            color="red"
-            overlap
-            bordered
-          >
-            <template v-slot:badge>
-              <span>5</span>
-            </template>
-
-            <v-icon>mdi-bell</v-icon>
-          </v-badge>
-        </v-btn>
-      </template>
-
-      <v-list
-        :tile="false"
-        nav
-      >
-        <div>
-          <app-bar-item
-            v-for="(n, i) in notifications"
-            :key="`item-${i}`"
-          >
-            <v-list-item-title v-text="n" />
-          </app-bar-item>
-        </div>
-      </v-list>
-    </v-menu>
-
-    <v-btn
-      class="ml-2"
-      min-width="0"
-      text
-      to="/pages/user"
-    >
-      <v-icon>mdi-account</v-icon>
-    </v-btn>
+    <span>Read User Data</span>
+  </v-tooltip>
   </v-app-bar>
 </template>
 
@@ -161,23 +93,22 @@
     },
 
     data: () => ({
-      notifications: [
-        'Mike John Responded to your email',
-        'You have 5 new tasks',
-        'You\'re now friends with Andrew',
-        'Another Notification',
-        'Another one',
-      ],
+      
     }),
 
     computed: {
-      ...mapState(['drawer']),
+      ...mapState(['drawer', 'token']),
     },
 
     methods: {
       ...mapMutations({
         setDrawer: 'SET_DRAWER',
+        setToken: 'SET_TOKEN'
       }),
+      connectUser() {
+        this.setToken('eyJraWQiOiJCZlo0LXB3eS1YcE5oN0E2S1p3cFJHRlRkM25MdXlUY1p6c1hxcHdaUkQ4IiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmxuRWNhNThHUzBnekZyOHZPRm02ZklOSi1pb0U0UXNHd002WWNuZm4xQzAiLCJpc3MiOiJodHRwczovL2Rldi0wMTkzNjg2MS5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE2NTM0NTgxOTksImV4cCI6MTY1MzQ2MTc5OSwiY2lkIjoiMG9hNDRkOHBsaEJZN3ZPYzg1ZDciLCJ1aWQiOiIwMHU1MHJ2eXdkOG1HdUp3NzVkNyIsInNjcCI6WyJlbWFpbCIsInByb2ZpbGUiLCJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNjUzNDUyMDUzLCJzdWIiOiJwZXJzb25pY2xlLmRlbW8uYWNjdEBnbWFpbC5jb20ifQ.hOsGVIDUw0ouaKVG_gTZ7ISafgj_zNq_VsC4cO0JS6oHa05hYNECU0hVuQFeTLzQWAljH6iNLRCs15WAXrcG2eDkn5IZW4OZxDf3UBwGtWjbjJgRsqUO2cX7jp_9Ez2AXFAt60OLLu99muICOg43OKglsI6Q36oPSqi7IgkOKNzaY3C2uFnG2OZcblIhYW3uL4ohNAM3-lOMhAEIyGF24FJK7BZ7Ci0PFTaV0e3sPd8NDolbecxM9HQXntQyfjM3r2q155isTltcZ8aEyjDjLkgtJDJBOMSFc9Qq9RWxZUhi4IzPrUwvmiXDXsWq4xXWtQ75rg4XlmuG-EhDUlmfTA')
+        //  window.location.replace("https://dev-01936861.okta.com/oauth2/default/v1/authorize?client_id=0oa44d8plhBY7vOc85d7&redirect_uri=http://localhost:3000/users/auth/oktaoauth/callback&response_type=token&scope=openid+profile+email&state=anyRandomString&nonce=anyRandomString&idp=0oa3v658b8VCLoy3L5d7")
+      }
     },
   }
 </script>

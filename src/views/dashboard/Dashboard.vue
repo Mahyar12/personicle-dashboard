@@ -1,146 +1,104 @@
 <template>
 	<v-container id="dashboard" fluid tag="section">
 		<v-row>
-			<v-col cols="12" lg="4">
-				<base-material-chart-card
-					:data="emailsSubscriptionChart.data"
-					:options="emailsSubscriptionChart.options"
-					:responsive-options="emailsSubscriptionChart.responsiveOptions"
-					color="#E91E63"
-					hover-reveal
-					type="Bar"
+			<v-col cols="12" sm="6" lg="2">
+				<base-material-card
+					class="v-card-profile"
+					avatar="https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg"
 				>
-					<template v-slot:reveal-actions>
-						<v-tooltip bottom>
-							<template v-slot:activator="{ attrs, on }">
-								<v-btn v-bind="attrs" color="info" icon v-on="on">
-									<v-icon color="info"> mdi-refresh </v-icon>
-								</v-btn>
-							</template>
-
-							<span>Refresh</span>
-						</v-tooltip>
-
-						<v-tooltip bottom>
-							<template v-slot:activator="{ attrs, on }">
-								<v-btn v-bind="attrs" light icon v-on="on">
-									<v-icon>mdi-pencil</v-icon>
-								</v-btn>
-							</template>
-
-							<span>Change Date</span>
-						</v-tooltip>
-					</template>
-
-					<h4 class="card-title font-weight-light mt-2 ml-2">Website Views</h4>
-
-					<p class="d-inline-flex font-weight-light ml-2 mt-1">
-						Last Campaign Performance
-					</p>
-
-					<template v-slot:actions>
-						<v-icon class="mr-1" small> mdi-clock-outline </v-icon>
-						<span class="caption grey--text font-weight-light"
-							>updated 10 minutes ago</span
-						>
-					</template>
-				</base-material-chart-card>
+					<v-card-text>
+						<h6 class="display-1 mb-1 grey--text">
+							{{'Gender: '}}
+						</h6>											
+						<h6 class="display-1 mb-1 grey--text">
+							{{'Age: '}}
+						</h6>											
+						<h6 class="display-1 mb-1 grey--text">
+							{{'Weight: '}}
+						</h6>											
+						<h6 class="display-1 mb-1 grey--text">
+							{{'Height: '}}
+						</h6>											
+						<h6 class="display-1 mb-1 grey--text">
+							{{'Race: '}}
+						</h6>											
+						<h6 class="display-1 mb-1 grey--text">
+							{{'City/Region: '}}
+						</h6>											
+					</v-card-text>
+				</base-material-card>
 			</v-col>
-
-			<v-col cols="12" lg="4">
-				<base-material-chart-card
-					:data="dailySalesChart.data"
-					:options="dailySalesChart.options"
-					color="success"
-					hover-reveal
-					type="Line"
-				>
-					<template v-slot:reveal-actions>
-						<v-tooltip bottom>
-							<template v-slot:activator="{ attrs, on }">
-								<v-btn v-bind="attrs" color="info" icon v-on="on">
-									<v-icon color="info"> mdi-refresh </v-icon>
-								</v-btn>
-							</template>
-
-							<span>Refresh</span>
-						</v-tooltip>
-
-						<v-tooltip bottom>
-							<template v-slot:activator="{ attrs, on }">
-								<v-btn v-bind="attrs" light icon v-on="on">
-									<v-icon>mdi-pencil</v-icon>
-								</v-btn>
-							</template>
-
-							<span>Change Date</span>
-						</v-tooltip>
-					</template>
-
-					<h4 class="card-title font-weight-light mt-2 ml-2">Daily Sales</h4>
-
-					<p class="d-inline-flex font-weight-light ml-2 mt-1">
-						<v-icon color="green" small> mdi-arrow-up </v-icon>
-						<span class="green--text">55%</span>&nbsp; increase in today's sales
-					</p>
-
-					<template v-slot:actions>
-						<v-icon class="mr-1" small> mdi-clock-outline </v-icon>
-						<span class="caption grey--text font-weight-light"
-							>updated 4 minutes ago</span
-						>
-					</template>
-				</base-material-chart-card>
+			<v-col cols="12" sm="6" lg="10">
+				<base-material-card color="#6A887D" title="Scores" class="px-5 py-3">
+					<v-row>
+						<v-col cols="12" sm="3" lg="2">
+							<v-card-text class="text-center">
+								<h6 class="display-1 mb-1 grey--text">
+									{{'Activity:'}}
+								</h6>		
+								<h4 class="display-1 mb-1 font-weight-bold">
+									{{'100'}}
+								</h4>		
+							</v-card-text>
+						</v-col>
+						<v-col cols="12" sm="3" lg="2">
+							<v-card-text class="text-center">
+								<h6 class="display-1 mb-1 grey--text">
+									{{'Sleep:'}}
+								</h6>		
+								<h4 class="display-1 mb-1 font-weight-bold">
+									{{'100'}}
+								</h4>		
+							</v-card-text>
+						</v-col>
+						<v-col cols="12" sm="3" lg="2">
+							<v-card-text class="text-center">
+								<h6 class="display-1 mb-1 grey--text">
+									{{'Readiness:'}}
+								</h6>		
+								<h4 class="display-1 mb-1 font-weight-bold">
+									{{'100'}}
+								</h4>		
+							</v-card-text>
+						</v-col>						
+					</v-row>
+				</base-material-card>
+				<base-material-card color="#6A887D" title="Current Vitals" class="px-5 py-3">
+					<v-row>
+						<v-col cols="12" sm="4" lg="4">
+							<v-card-text class="text-center">
+								<h6 class="display-1 mb-1 grey--text">
+									{{'Average 24 Hours Heart Rate:'}}
+								</h6>		
+								<h4 class="display-1 mb-1 font-weight-bold">
+									{{avgHR}}
+								</h4>		
+							</v-card-text>
+						</v-col>
+						<v-col cols="12" sm="4" lg="4">
+							<v-card-text class="text-center">
+								<h6 class="display-1 mb-1 grey--text">
+									{{'Minimum 2 Weeks Heart Rate:'}}
+								</h6>		
+								<h4 class="display-1 mb-1 font-weight-bold">
+									{{minHR}}
+								</h4>		
+							</v-card-text>
+						</v-col>
+						<v-col cols="12" sm="4" lg="4">
+							<v-card-text class="text-center">
+								<h6 class="display-1 mb-1 grey--text">
+									{{'Maximum 2 Weeks Heart Rate:'}}
+								</h6>		
+								<h4 class="display-1 mb-1 font-weight-bold">
+									{{maxHR}}
+								</h4>		
+							</v-card-text>
+						</v-col>						
+					</v-row>
+				</base-material-card>
 			</v-col>
-
-			<v-col cols="12" lg="4">
-				<base-material-chart-card
-					:data="dataCompletedTasksChart.data"
-					:options="dataCompletedTasksChart.options"
-					hover-reveal
-					color="info"
-					type="Line"
-				>
-					<template v-slot:reveal-actions>
-						<v-tooltip bottom>
-							<template v-slot:activator="{ attrs, on }">
-								<v-btn v-bind="attrs" color="info" icon v-on="on">
-									<v-icon color="info"> mdi-refresh </v-icon>
-								</v-btn>
-							</template>
-
-							<span>Refresh</span>
-						</v-tooltip>
-
-						<v-tooltip bottom>
-							<template v-slot:activator="{ attrs, on }">
-								<v-btn v-bind="attrs" light icon v-on="on">
-									<v-icon>mdi-pencil</v-icon>
-								</v-btn>
-							</template>
-
-							<span>Change Date</span>
-						</v-tooltip>
-					</template>
-
-					<h3 class="card-title font-weight-light mt-2 ml-2">
-						Completed Tasks
-					</h3>
-
-					<p class="d-inline-flex font-weight-light ml-2 mt-1">
-						Last Last Campaign Performance
-					</p>
-
-					<template v-slot:actions>
-						<v-icon class="mr-1" small> mdi-clock-outline </v-icon>
-						<span class="caption grey--text font-weight-light"
-							>campaign sent 26 minutes ago</span
-						>
-					</template>
-				</base-material-chart-card>
-			</v-col>
-
-			<v-col cols="12" sm="6" lg="3">
+			<!-- <v-col cols="12" sm="6" lg="3">
 				<base-material-stats-card
 					color="info"
 					icon="mdi-twitter"
@@ -183,331 +141,281 @@
 					sub-icon-color="red"
 					sub-text="Get More Space..."
 				/>
-			</v-col>
+			</v-col> -->
+			<v-col cols="12">
+				<base-material-card color="#6A887D" title="Lifestyle Data and Trends" class="px-5 py-3">
+					<v-tabs vertical>
+						<v-tab style="padding:20px;">
+							<v-icon left>
+								mdi-power-sleep
+							</v-icon>
+							Sleep
+						</v-tab>
+						<v-tab>
+							<v-icon left>
+								mdi-bike
+							</v-icon>
+							Activity
+						</v-tab>
 
-			<v-col cols="12" lg="4">
-				<base-material-card
-					color="primary"
-					title="Sleep"
-					class="px-5 py-3"
-				>
-					<canvas id="sleepChart" />
-				</base-material-card>
-			</v-col>
-
-			<v-col cols="12" md="6">
-				<base-material-card color="warning" class="px-5 py-3">
-					<template v-slot:heading>
-						<div class="text-h3 font-weight-light">Employees Stats</div>
-
-						<div class="subtitle-1 font-weight-light">
-							New employees on 15th September, 2016
-						</div>
-					</template>
-					<v-card-text>
-						<v-data-table :headers="headers" :items="items" />
-					</v-card-text>
-				</base-material-card>
-			</v-col>
-
-			<v-col cols="12" md="6">
-				<base-material-card class="px-5 py-3">
-					<template v-slot:heading>
-						<v-tabs
-							v-model="tabs"
-							background-color="transparent"
-							slider-color="white"
-						>
-							<span
-								class="subheading font-weight-light mx-3"
-								style="align-self: center"
-								>Tasks:</span
-							>
-							<v-tab class="mr-3">
-								<v-icon class="mr-2"> mdi-bug </v-icon>
-								Bugs
-							</v-tab>
-							<v-tab class="mr-3">
-								<v-icon class="mr-2"> mdi-code-tags </v-icon>
-								Website
-							</v-tab>
-							<v-tab>
-								<v-icon class="mr-2"> mdi-cloud </v-icon>
-								Server
-							</v-tab>
-						</v-tabs>
-					</template>
-
-					<v-tabs-items v-model="tabs" class="transparent">
-						<v-tab-item v-for="n in 3" :key="n">
-							<v-card-text>
-								<template v-for="(task, i) in tasks[tabs]">
-									<v-row :key="i" align="center">
-										<v-col cols="1">
-											<v-list-item-action>
-												<v-checkbox v-model="task.value" color="secondary" />
-											</v-list-item-action>
-										</v-col>
-
-										<v-col cols="9">
-											<div class="font-weight-light" v-text="task.text" />
-										</v-col>
-
-										<v-col cols="2" class="text-right">
-											<v-icon class="mx-1"> mdi-pencil </v-icon>
-											<v-icon color="error" class="mx-1"> mdi-close </v-icon>
+						<v-tab-item eager>
+							<v-card flat>
+								<v-card-text>
+									<v-row>
+										<v-col cols="12" sm="4" lg="4"/>
+										<v-col cols="12" sm="6" lg="6">
+											<v-btn        
+												class="ma-2"
+												min-width="0"
+												color="indigo"
+												outlined
+												@click="changeData(0, 0)"
+											>
+												Daily
+											</v-btn>
+											<v-btn        
+												class="ma-2"
+												min-width="0"
+												color="indigo"
+												outlined
+												@click="changeData(0, 1)"
+											>
+												Weekly
+											</v-btn>
 										</v-col>
 									</v-row>
-								</template>
-							</v-card-text>
+									<custom-chart :chartData="sleepChart" id="chart" :showLegend="false" />
+								</v-card-text>
+							</v-card>
 						</v-tab-item>
-					</v-tabs-items>
+						<v-tab-item eager>
+							<v-card flat>
+								<v-card-text>
+									<v-row>
+										<v-col cols="12" sm="4" lg="4"/>
+										<v-col cols="12" sm="6" lg="6">
+											<v-btn        
+												class="ma-2"
+												min-width="0"
+												color="indigo"
+												outlined
+												@click="changeData(1, 0)"
+											>
+												Daily
+											</v-btn>
+											<v-btn        
+												class="ma-2"
+												min-width="0"
+												color="indigo"
+												outlined
+												@click="changeData(1, 1)"
+											>
+												Weekly
+											</v-btn>
+										</v-col>
+									</v-row>
+									<custom-chart :chartData="walkChart" id="chart2" :showLegend="false" />
+								</v-card-text>
+							</v-card>
+						</v-tab-item>					
+					</v-tabs>
 				</base-material-card>
 			</v-col>
+			<!-- <v-col cols="12" lg="6">
+				<base-material-card color="#6A887D" title="Sleep" class="px-5 py-3">
+					<custom-chart :chartData="sleepChart" id="chart" :showLegend="false" />
+				</base-material-card>
+			</v-col>
+			<v-col cols="12" lg="6">
+				<base-material-card color="#6A887D" title="Walk" class="px-5 py-3" >
+					<custom-chart :chartData="walkChart" id="chart2" :showLegend="false" />
+				</base-material-card>
+			</v-col> -->
 		</v-row>
 	</v-container>
 </template>
 
 <script>
-import Chart from "chart.js";
+import CustomChart from "./components/Chart.vue";
+import axios from 'axios'
+import moment from 'moment'
 
 export default {
 	name: "DashboardDashboard",
-
+  components: {
+		"custom-chart": CustomChart,
+	},
 	data() {
 		return {
-			dailySalesChart: {
-				data: {
-					labels: ["M", "T", "W", "T", "F", "S", "S"],
-					series: [[12, 17, 7, 17, 23, 18, 38]],
-				},
-				options: {
-					lineSmooth: this.$chartist.Interpolation.cardinal({
-						tension: 0,
-					}),
-					low: 0,
-					high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-					chartPadding: {
-						top: 0,
-						right: 0,
-						bottom: 0,
-						left: 0,
-					},
-				},
-			},
-			dataCompletedTasksChart: {
-				data: {
-					labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
-					series: [[230, 750, 450, 300, 280, 240, 200, 190]],
-				},
-				options: {
-					lineSmooth: this.$chartist.Interpolation.cardinal({
-						tension: 0,
-					}),
-					low: 0,
-					high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-					chartPadding: {
-						top: 0,
-						right: 0,
-						bottom: 0,
-						left: 0,
-					},
-				},
-			},
-			emailsSubscriptionChart: {
-				data: {
-					labels: [
-						"Ja",
-						"Fe",
-						"Ma",
-						"Ap",
-						"Mai",
-						"Ju",
-						"Jul",
-						"Au",
-						"Se",
-						"Oc",
-						"No",
-						"De",
-					],
-					series: [
-						[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-					],
-				},
-				options: {
-					axisX: {
-						showGrid: false,
-					},
-					low: 0,
-					high: 1000,
-					chartPadding: {
-						top: 0,
-						right: 5,
-						bottom: 0,
-						left: 0,
-					},
-				},
-				responsiveOptions: [
-					[
-						"screen and (max-width: 640px)",
-						{
-							seriesBarDistance: 5,
-							axisX: {
-								labelInterpolationFnc: function (value) {
-									return value[0];
-								},
-							},
-						},
-					],
-				],
-			},
-			headers: [
-				{
-					sortable: false,
-					text: "ID",
-					value: "id",
-				},
-				{
-					sortable: false,
-					text: "Name",
-					value: "name",
-				},
-				{
-					sortable: false,
-					text: "Salary",
-					value: "salary",
-					align: "right",
-				},
-				{
-					sortable: false,
-					text: "Country",
-					value: "country",
-					align: "right",
-				},
-				{
-					sortable: false,
-					text: "City",
-					value: "city",
-					align: "right",
-				},
-			],
-			items: [
-				{
-					id: 1,
-					name: "Dakota Rice",
-					country: "Niger",
-					city: "Oud-Tunrhout",
-					salary: "$35,738",
-				},
-				{
-					id: 2,
-					name: "Minerva Hooper",
-					country: "Curaçao",
-					city: "Sinaai-Waas",
-					salary: "$23,738",
-				},
-				{
-					id: 3,
-					name: "Sage Rodriguez",
-					country: "Netherlands",
-					city: "Overland Park",
-					salary: "$56,142",
-				},
-				{
-					id: 4,
-					name: "Philip Chanley",
-					country: "Korea, South",
-					city: "Gloucester",
-					salary: "$38,735",
-				},
-				{
-					id: 5,
-					name: "Doris Greene",
-					country: "Malawi",
-					city: "Feldkirchen in Kārnten",
-					salary: "$63,542",
-				},
-			],
-			tabs: 0,
-			tasks: {
-				0: [
-					{
-						text: 'Sign contract for "What are conference organizers afraid of?"',
-						value: true,
-					},
-					{
-						text: "Lines From Great Russian Literature? Or E-mails From My Boss?",
-						value: false,
-					},
-					{
-						text: "Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit",
-						value: false,
-					},
-					{
-						text: "Create 4 Invisible User Experiences you Never Knew About",
-						value: true,
-					},
-				],
-				1: [
-					{
-						text: "Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit",
-						value: true,
-					},
-					{
-						text: 'Sign contract for "What are conference organizers afraid of?"',
-						value: false,
-					},
-				],
-				2: [
-					{
-						text: "Lines From Great Russian Literature? Or E-mails From My Boss?",
-						value: false,
-					},
-					{
-						text: "Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit",
-						value: true,
-					},
-					{
-						text: 'Sign contract for "What are conference organizers afraid of?"',
-						value: true,
-					},
-				],
-			},
-			list: {
-				0: false,
-				1: false,
-				2: false,
-			},
-			sleepChart: {}
+			sleepChart: {data: [{data:[], label: 'duration', backgroundColor: '#98b8ac'}], labels: []},     
+			walkChart: {data: [{data:[], label: 'duration', backgroundColor: '#98b8ac'}], labels: []},
+			sleepChartWeekly: {data: [{data:[], label: 'duration', backgroundColor: '#98b8ac'}], labels: []},     
+			walkChartWeekly: {data: [{data:[], label: 'duration', backgroundColor: '#98b8ac'}], labels: []},
+			minHR: 200,
+			maxHR: 0,
+			avgHR: 0,
+			sleepConf: -1,
+			activityConf: -1
 		};
 	},
+  watch: {
+    token() {
+			this.calcHR()
+      console.log("token changed", this.token)
+			this.calcSteps()
 
+			// axios.get('https://api.personicle.org/data/read/events?datatype=com.personicle.individual.datastreams.step.cadence&startTime=2021-12-25%2018:48:08.872234&endTime=2022-03-25%2013:48:08.872460&source=google-fit',
+      // {
+      //   headers: { Authorization: `Bearer ${this.token}` }
+      // })
+      // .then(response => {
+      //   console.log("resp", response)
+			// 	response.data.forEach(element => {
+			// 		if(element.event_name == "Sleep") {
+			// 			this.sleepChart.data[0].data.push(element.parameters.duration)
+			// 			this.sleepChart.labels.push(new moment(element.start_time).format("MM-DD HH:mm"))
+			// 		}
+			// 	});
+			// 	console.log("walk", this.walkChart)
+      // })
+      // .catch((err) => {
+      //   console.log("err", err)
+      // })
+			
+    }
+  },
+  computed: {
+    token: {
+      get () {
+        return this.$store.state.token
+      },
+      set (val) {
+        this.$store.commit('SET_TOKEN', val)
+      },
+    },
+  },
+	mounted() {
+		// console.log('token', this.token)
+    // this.sleepChart = {data: [{data:[1,2,3], label: 'test', backgroundColor: '#98b8ac'}], labels: ['09/12', '09/13', '09/14']}
+    // this.walkChart = {data: [{data:[1,2,3], label: 'test', backgroundColor: '#98b8ac'}], labels: ['09/12', '09/13', '09/14']}
+	},
 	methods: {
+		changeData(chart, status) {
+			if(chart == 1) {				
+				if(status !== this.activityConf) {
+					let tmp = this.walkChart
+					this.walkChart = this.walkChartWeekly
+					this.walkChartWeekly = tmp
+				}
+				this.activityConf = status
+			}
+			else 
+				this.sleepConf = status
+		},
+		calcSteps() {
+			let start_time = moment().subtract(3, 'months').format('YYYY-MM-DD HH:mm:ss.SSSS')
+			let end_time = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
+      axios.get('https://staging.personicle.org/data/read/datastreams?datatype=com.personicle.individual.datastreams.step.count&startTime=' + start_time + '&endTime=' + end_time + '&source=google-fit',
+      {
+        headers: { Authorization: `Bearer ${this.token}` }
+      })
+      .then(response => {
+        console.log("resp", response)
+				let sdata = {}
+				console.log("2 weeks", response.data.filter(element=> (moment(element.timestamp) > moment().subtract(2, 'weeks'))).length)
+				response.data.filter(element=> (moment(element.timestamp) > moment().subtract(2, 'weeks'))).map(element=>{return {...element, timestamp: moment(element.timestamp).startOf('day')}}).forEach(element => {
+					console.log(sdata[moment(element.timestamp).format("MM-DD HH:mm")], element)
+					if(!!sdata[moment(element.timestamp).format("MM-DD HH:mm")])
+						sdata[moment(element.timestamp).format("MM-DD HH:mm")] += element.value
+					else 
+						sdata[moment(element.timestamp).format("MM-DD HH:mm")] = element.value
+				});
+				this.walkChartWeekly.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
+				this.walkChartWeekly.labels.push(...Object.keys(sdata))
+				sdata = {}
+				response.data.map(element=>{return {...element, timestamp: moment(element.timestamp).startOf('week')}}).forEach(element => {
+					if(!!sdata[moment(element.timestamp).format("MM-DD HH:mm")])
+						sdata[moment(element.timestamp).format("MM-DD HH:mm")] += element.value
+					else 
+						sdata[moment(element.timestamp).format("MM-DD HH:mm")] = element.value
+				});
+				this.walkChart.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
+				this.walkChart.labels.push(...Object.keys(sdata))
+				
+      })
+      .catch((err) => {
+        console.log("err", err)
+      })
+		},
+		calcSleep() {
+			let start_time = moment().subtract(3, 'months').format('YYYY-MM-DD HH:mm:ss.SSSS')
+			let end_time = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
+      axios.get('https://api.personicle.org/data/read/events?startTime=' + start_time + '&endTime=' + end_time + '&source=google-fit',
+      {
+        headers: { Authorization: `Bearer ${this.token}` }
+      })
+      .then(response => {
+        console.log("resp", response)
+				let sdata = {}
+				response.data.filter(element=> (moment(element.timestamp) > moment().subtract(2, 'weeks'))).map(element=>{return {...element, timestamp: moment(element.timestamp).startOf('day')}}).forEach(element => {
+					console.log(sdata[moment(element.timestamp).format("MM-DD HH:mm")], element)
+					if(!!sdata[moment(element.timestamp).format("MM-DD HH:mm")])
+						sdata[moment(element.timestamp).format("MM-DD HH:mm")] += element.value
+					else 
+						sdata[moment(element.timestamp).format("MM-DD HH:mm")] = element.value
+				});
+				this.walkChartWeekly.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
+				this.walkChartWeekly.labels.push(...Object.keys(sdata))
+				sdata = {}
+				response.data.map(element=>{return {...element, timestamp: moment(element.timestamp).startOf('week')}}).forEach(element => {
+					if(!!sdata[moment(element.timestamp).format("MM-DD HH:mm")])
+						sdata[moment(element.timestamp).format("MM-DD HH:mm")] += element.value
+					else 
+						sdata[moment(element.timestamp).format("MM-DD HH:mm")] = element.value
+				});
+				this.walkChart.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
+				this.walkChart.labels.push(...Object.keys(sdata))
+				
+      })
+      .catch((err) => {
+        console.log("err", err)
+      })
+		},
+		calcHR() {
+			let start_time = moment().subtract(2, 'weeks').format('YYYY-MM-DD HH:mm:ss.SSSS')
+			let end_time = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
+			console.log('https://api.personicle.org/data/read/datastreams?datatype=com.personicle.individual.datastreams.heartrate&startTime=' + start_time + '&endTime=' + end_time + '&source=google-fit')
+			axios.get('https://api.personicle.org/data/read/datastreams?datatype=com.personicle.individual.datastreams.heartrate&startTime=' + start_time + '&endTime=' + end_time + '&source=google-fit',
+				{
+					headers: { Authorization: `Bearer ${this.token}` }
+				})
+				.then(response => {
+					console.log("resp", response)
+					let count = 0
+					let avg = 0
+					response.data.forEach(element => {
+						if(moment(element.timestamp) >= moment().subtract(1, 'day')) {
+							count++
+							avg += element.value
+						}
+						if(element.value > this.maxHR)
+							this.maxHR = element.value
+						if(element.value < this.minHR)
+							this.minHR = element.value
+					});
+					if(count == 0)
+						this.avgHR = (this.minHR + this.maxHR)/2
+					else
+						this.avgHR = avg/count
+					console.log("walk", this.walkChart)
+				})
+				.catch((err) => {
+					console.log("err", err)
+				})
+		},
 		complete(index) {
 			this.list[index] = !this.list[index];
 		},
 	},
-
-	mounted () {
-		const sleepChartCtx = document.getElementById("sleepChart");
-		this.sleepChart = new Chart(sleepChartCtx, {
-			type: "line",
-			data: {
-				labels: "",
-				datasets: [
-					{
-						label: "Time (minutes)",
-						data: [1,2,3,4,5],
-						borderWidth: 1,
-					},
-				],
-			},
-			options: {
-				legend: {
-					position: "bottom",				
-				},
-			},
-		});
-	}
 };
 </script>
