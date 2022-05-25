@@ -31,27 +31,27 @@
 			<v-col cols="12" sm="6" lg="10">
 				<base-material-card color="#6A887D" title="Scores" class="px-5 py-3">
 					<v-row>
-						<v-col cols="12" sm="3" lg="2">
+						<v-col cols="12" sm="6" lg="6">
 							<v-card-text class="text-center">
 								<h6 class="display-1 mb-1 grey--text">
 									{{'Activity:'}}
 								</h6>		
 								<h4 class="display-1 mb-1 font-weight-bold">
-									{{'100'}}
+									{{activity_score}}
 								</h4>		
 							</v-card-text>
 						</v-col>
-						<v-col cols="12" sm="3" lg="2">
+						<v-col cols="12" sm="6" lg="6">
 							<v-card-text class="text-center">
 								<h6 class="display-1 mb-1 grey--text">
 									{{'Sleep:'}}
 								</h6>		
 								<h4 class="display-1 mb-1 font-weight-bold">
-									{{'100'}}
+									{{sleep_score}}
 								</h4>		
 							</v-card-text>
 						</v-col>
-						<v-col cols="12" sm="3" lg="2">
+						<!-- <v-col cols="12" sm="3" lg="2">
 							<v-card-text class="text-center">
 								<h6 class="display-1 mb-1 grey--text">
 									{{'Readiness:'}}
@@ -60,7 +60,7 @@
 									{{'100'}}
 								</h4>		
 							</v-card-text>
-						</v-col>						
+						</v-col>						 -->
 					</v-row>
 				</base-material-card>
 				<base-material-card color="#6A887D" title="Current Vitals" class="px-5 py-3">
@@ -247,13 +247,15 @@ export default {
 	},
 	data() {
 		return {
-			sleepChart: {data: [{data:[], label: 'duration', backgroundColor: '#98b8ac'}], labels: []},     
-			walkChart: {data: [{data:[], label: 'duration', backgroundColor: '#98b8ac'}], labels: []},
-			sleepChartWeekly: {data: [{data:[], label: 'duration', backgroundColor: '#98b8ac'}], labels: []},     
-			walkChartWeekly: {data: [{data:[], label: 'duration', backgroundColor: '#98b8ac'}], labels: []},
+			sleepChart: {data: [{data:[], label: 'Duration (hours)', backgroundColor: '#98b8ac'}], labels: []},     
+			walkChart: {data: [{data:[], label: 'Steps', backgroundColor: '#98b8ac'}], labels: []},
+			sleepChartWeekly: {data: [{data:[], label: 'Duration (hours)', backgroundColor: '#98b8ac'}], labels: []},     
+			walkChartWeekly: {data: [{data:[], label: 'Steps', backgroundColor: '#98b8ac'}], labels: []},
 			minHR: 200,
 			maxHR: 0,
 			avgHR: 0,
+			activity_score: 0,
+			sleep_score: 0,
 			sleepConf: -1,
 			activityConf: -1
 		};
@@ -263,25 +265,7 @@ export default {
 			this.calcHR()
       console.log("token changed", this.token)
 			this.calcSteps()
-
-			// axios.get('https://api.personicle.org/data/read/events?datatype=com.personicle.individual.datastreams.step.cadence&startTime=2021-12-25%2018:48:08.872234&endTime=2022-03-25%2013:48:08.872460&source=google-fit',
-      // {
-      //   headers: { Authorization: `Bearer ${this.token}` }
-      // })
-      // .then(response => {
-      //   console.log("resp", response)
-			// 	response.data.forEach(element => {
-			// 		if(element.event_name == "Sleep") {
-			// 			this.sleepChart.data[0].data.push(element.parameters.duration)
-			// 			this.sleepChart.labels.push(new moment(element.start_time).format("MM-DD HH:mm"))
-			// 		}
-			// 	});
-			// 	console.log("walk", this.walkChart)
-      // })
-      // .catch((err) => {
-      //   console.log("err", err)
-      // })
-			
+			this.calcSleep()
     }
   },
   computed: {
@@ -309,8 +293,14 @@ export default {
 				}
 				this.activityConf = status
 			}
-			else 
+			else {
+				if(status !== this.sleepConf) {
+					let tmp = this.sleepChart
+					this.sleepChart = this.sleepChartWeekly
+					this.sleepChartWeekly = tmp
+				}
 				this.sleepConf = status
+			}
 		},
 		calcSteps() {
 			let start_time = moment().subtract(3, 'months').format('YYYY-MM-DD HH:mm:ss.SSSS')
@@ -320,24 +310,24 @@ export default {
         headers: { Authorization: `Bearer ${this.token}` }
       })
       .then(response => {
-        console.log("resp", response)
 				let sdata = {}
-				console.log("2 weeks", response.data.filter(element=> (moment(element.timestamp) > moment().subtract(2, 'weeks'))).length)
 				response.data.filter(element=> (moment(element.timestamp) > moment().subtract(2, 'weeks'))).map(element=>{return {...element, timestamp: moment(element.timestamp).startOf('day')}}).forEach(element => {
-					console.log(sdata[moment(element.timestamp).format("MM-DD HH:mm")], element)
-					if(!!sdata[moment(element.timestamp).format("MM-DD HH:mm")])
-						sdata[moment(element.timestamp).format("MM-DD HH:mm")] += element.value
+					if(!!sdata[moment(element.timestamp).format("MM-DD")])
+						sdata[moment(element.timestamp).format("MM-DD")] += element.value
 					else 
-						sdata[moment(element.timestamp).format("MM-DD HH:mm")] = element.value
+						sdata[moment(element.timestamp).format("MM-DD")] = element.value					
 				});
+
+				this.activity_score = (Object.keys(sdata).map(e=>sdata[e]).filter(e=>e>8000).length*1.0/Object.keys(sdata).length).toFixed(2)
+
 				this.walkChartWeekly.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
 				this.walkChartWeekly.labels.push(...Object.keys(sdata))
 				sdata = {}
 				response.data.map(element=>{return {...element, timestamp: moment(element.timestamp).startOf('week')}}).forEach(element => {
-					if(!!sdata[moment(element.timestamp).format("MM-DD HH:mm")])
-						sdata[moment(element.timestamp).format("MM-DD HH:mm")] += element.value
+					if(!!sdata[moment(element.timestamp).format("MM-DD")])
+						sdata[moment(element.timestamp).format("MM-DD")] += element.value
 					else 
-						sdata[moment(element.timestamp).format("MM-DD HH:mm")] = element.value
+						sdata[moment(element.timestamp).format("MM-DD")] = element.value
 				});
 				this.walkChart.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
 				this.walkChart.labels.push(...Object.keys(sdata))
@@ -355,26 +345,27 @@ export default {
         headers: { Authorization: `Bearer ${this.token}` }
       })
       .then(response => {
-        console.log("resp", response)
 				let sdata = {}
-				response.data.filter(element=> (moment(element.timestamp) > moment().subtract(2, 'weeks'))).map(element=>{return {...element, timestamp: moment(element.timestamp).startOf('day')}}).forEach(element => {
-					console.log(sdata[moment(element.timestamp).format("MM-DD HH:mm")], element)
-					if(!!sdata[moment(element.timestamp).format("MM-DD HH:mm")])
-						sdata[moment(element.timestamp).format("MM-DD HH:mm")] += element.value
+				response.data.filter(element=> (element.event_name=='Sleep' && moment(element.start_time) > moment().subtract(2, 'weeks'))).map(element=>{return {...element, start_time: moment(element.start_time).startOf('day')}}).forEach(element => {
+					if(!!sdata[moment(element.start_time).format("MM-DD HH:mm")])
+						sdata[moment(element.start_time).format("MM-DD HH:mm")] += (element.parameters.duration/3600000.0).toFixed(2)
 					else 
-						sdata[moment(element.timestamp).format("MM-DD HH:mm")] = element.value
+						sdata[moment(element.start_time).format("MM-DD HH:mm")] = (element.parameters.duration/3600000.0).toFixed(2)
 				});
-				this.walkChartWeekly.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
-				this.walkChartWeekly.labels.push(...Object.keys(sdata))
+
+				this.sleep_score = (Object.keys(sdata).map(e=>sdata[e]).filter(e=>e>8).length*1.0/Object.keys(sdata).length).toFixed(2)*100
+
+				this.sleepChartWeekly.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
+				this.sleepChartWeekly.labels.push(...Object.keys(sdata))
 				sdata = {}
-				response.data.map(element=>{return {...element, timestamp: moment(element.timestamp).startOf('week')}}).forEach(element => {
-					if(!!sdata[moment(element.timestamp).format("MM-DD HH:mm")])
-						sdata[moment(element.timestamp).format("MM-DD HH:mm")] += element.value
+				response.data.filter(element=> (element.event_name=='Sleep')).map(element=>{return {...element, start_time: moment(element.start_time).startOf('week')}}).forEach(element => {
+					if(!!sdata[moment(element.start_time).format("MM-DD HH:mm")])
+						sdata[moment(element.start_time).format("MM-DD HH:mm")] += (element.parameters.duration/3600000.0).toFixed(2)
 					else 
-						sdata[moment(element.timestamp).format("MM-DD HH:mm")] = element.value
+						sdata[moment(element.start_time).format("MM-DD HH:mm")] = (element.parameters.duration/3600000.0).toFixed(2)
 				});
-				this.walkChart.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
-				this.walkChart.labels.push(...Object.keys(sdata))
+				this.sleepChart.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
+				this.sleepChart.labels.push(...Object.keys(sdata))
 				
       })
       .catch((err) => {
@@ -384,13 +375,11 @@ export default {
 		calcHR() {
 			let start_time = moment().subtract(2, 'weeks').format('YYYY-MM-DD HH:mm:ss.SSSS')
 			let end_time = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
-			console.log('https://api.personicle.org/data/read/datastreams?datatype=com.personicle.individual.datastreams.heartrate&startTime=' + start_time + '&endTime=' + end_time + '&source=google-fit')
 			axios.get('https://api.personicle.org/data/read/datastreams?datatype=com.personicle.individual.datastreams.heartrate&startTime=' + start_time + '&endTime=' + end_time + '&source=google-fit',
 				{
 					headers: { Authorization: `Bearer ${this.token}` }
 				})
-				.then(response => {
-					console.log("resp", response)
+				.then(response => {					
 					let count = 0
 					let avg = 0
 					response.data.forEach(element => {
@@ -407,7 +396,6 @@ export default {
 						this.avgHR = (this.minHR + this.maxHR)/2
 					else
 						this.avgHR = avg/count
-					console.log("walk", this.walkChart)
 				})
 				.catch((err) => {
 					console.log("err", err)
