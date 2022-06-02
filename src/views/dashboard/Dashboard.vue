@@ -1,12 +1,15 @@
 <template>
 	<v-container id="dashboard" fluid tag="section">
 		<v-row>
-			<v-col cols="12" sm="6" lg="2">
+			<v-col cols="12" sm="6" lg="3">
 				<base-material-card
 					class="v-card-profile"
 					avatar="https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg"
 				>
 					<v-card-text>
+						<h6 class="display-1 mb-1 grey--text">
+							{{'Name: Bruce Wayne'}}
+						</h6>											
 						<h6 class="display-1 mb-1 grey--text">
 							{{'Gender: '}}
 						</h6>											
@@ -28,7 +31,7 @@
 					</v-card-text>
 				</base-material-card>
 			</v-col>
-			<v-col cols="12" sm="6" lg="10">
+			<v-col cols="12" sm="6" lg="9">
 				<base-material-card color="#6A887D" title="Scores" class="px-5 py-3">
 					<v-row>
 						<v-col cols="12" sm="6" lg="6">
@@ -50,17 +53,7 @@
 									{{sleep_score}}
 								</h4>		
 							</v-card-text>
-						</v-col>
-						<!-- <v-col cols="12" sm="3" lg="2">
-							<v-card-text class="text-center">
-								<h6 class="display-1 mb-1 grey--text">
-									{{'Readiness:'}}
-								</h6>		
-								<h4 class="display-1 mb-1 font-weight-bold">
-									{{'100'}}
-								</h4>		
-							</v-card-text>
-						</v-col>						 -->
+						</v-col>						
 					</v-row>
 				</base-material-card>
 				<base-material-card color="#6A887D" title="Current Vitals" class="px-5 py-3">
@@ -97,51 +90,7 @@
 						</v-col>						
 					</v-row>
 				</base-material-card>
-			</v-col>
-			<!-- <v-col cols="12" sm="6" lg="3">
-				<base-material-stats-card
-					color="info"
-					icon="mdi-twitter"
-					title="Followers"
-					value="+245"
-					sub-icon="mdi-clock"
-					sub-text="Just Updated"
-				/>
-			</v-col>
-
-			<v-col cols="12" sm="6" lg="3">
-				<base-material-stats-card
-					color="primary"
-					icon="mdi-poll"
-					title="Website Visits"
-					value="75.521"
-					sub-icon="mdi-tag"
-					sub-text="Tracked from Google Analytics"
-				/>
-			</v-col>
-
-			<v-col cols="12" sm="6" lg="3">
-				<base-material-stats-card
-					color="success"
-					icon="mdi-store"
-					title="Revenue"
-					value="$ 34,245"
-					sub-icon="mdi-calendar"
-					sub-text="Last 24 Hours"
-				/>
-			</v-col>
-
-			<v-col cols="12" sm="6" lg="3">
-				<base-material-stats-card
-					color="orange"
-					icon="mdi-sofa"
-					title="Bookings"
-					value="184"
-					sub-icon="mdi-alert"
-					sub-icon-color="red"
-					sub-text="Get More Space..."
-				/>
-			</v-col> -->
+			</v-col>			
 			<v-col cols="12">
 				<base-material-card color="#6A887D" title="Lifestyle Data and Trends" class="px-5 py-3">
 					<v-tabs vertical>
@@ -347,22 +296,22 @@ export default {
       .then(response => {
 				let sdata = {}
 				response.data.filter(element=> (element.event_name=='Sleep' && moment(element.start_time) > moment().subtract(2, 'weeks'))).map(element=>{return {...element, start_time: moment(element.start_time).startOf('day')}}).forEach(element => {
-					if(!!sdata[moment(element.start_time).format("MM-DD HH:mm")])
-						sdata[moment(element.start_time).format("MM-DD HH:mm")] += (element.parameters.duration/3600000.0).toFixed(2)
+					if(!!sdata[moment(element.start_time).format("MM-DD")])
+						sdata[moment(element.start_time).format("MM-DD")] += (element.parameters.duration/3600000.0)
 					else 
-						sdata[moment(element.start_time).format("MM-DD HH:mm")] = (element.parameters.duration/3600000.0).toFixed(2)
+						sdata[moment(element.start_time).format("MM-DD")] = (element.parameters.duration/3600000.0)
 				});
 
-				this.sleep_score = (Object.keys(sdata).map(e=>sdata[e]).filter(e=>e>8).length*1.0/Object.keys(sdata).length).toFixed(2)*100
+				this.sleep_score = ((Object.keys(sdata).map(e=>sdata[e]).filter(e=>e>8).length*1.0/Object.keys(sdata).length)*100).toFixed(2)
 
 				this.sleepChartWeekly.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
 				this.sleepChartWeekly.labels.push(...Object.keys(sdata))
 				sdata = {}
 				response.data.filter(element=> (element.event_name=='Sleep')).map(element=>{return {...element, start_time: moment(element.start_time).startOf('week')}}).forEach(element => {
-					if(!!sdata[moment(element.start_time).format("MM-DD HH:mm")])
-						sdata[moment(element.start_time).format("MM-DD HH:mm")] += (element.parameters.duration/3600000.0).toFixed(2)
+					if(!!sdata[moment(element.start_time).format("MM-DD")])
+						sdata[moment(element.start_time).format("MM-DD")] += (element.parameters.duration/3600000.0)
 					else 
-						sdata[moment(element.start_time).format("MM-DD HH:mm")] = (element.parameters.duration/3600000.0).toFixed(2)
+						sdata[moment(element.start_time).format("MM-DD")] = (element.parameters.duration/3600000.0)
 				});
 				this.sleepChart.data[0].data.push(...Object.keys(sdata).map(e=>sdata[e]))
 				this.sleepChart.labels.push(...Object.keys(sdata))
